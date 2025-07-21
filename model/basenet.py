@@ -5,7 +5,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torchvision import models
 from model.resnet import resnet34, resnet50
-from vit3d_pytorch import ViT3D
+from model.vit3d import ViT3D
 from vit3d import Vision_Transformer3D, DeiT_Transformer3D
 import warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
