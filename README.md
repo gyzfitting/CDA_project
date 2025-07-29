@@ -51,5 +51,17 @@ pip install -r requirements.txt
 ```bash
 git clone https://github.com/yzgao2017/CDA.git
 cd yourproject
+```
+2. Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+3. Run training (example)
+
+```bash   
+python main.py --config config.yaml
+```
+
 
 
