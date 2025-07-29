@@ -50,7 +50,6 @@ def main(args):
         if fold == 1:
             result_root.mkdir(parents=True, exist_ok=True)
             shutil.copy("trainer.py", result_root / "trainer.py")
-
        
         fold_dir = result_root / f"fold_{fold}"
         eval_dir = fold_dir / "eval_results"
@@ -69,10 +68,9 @@ def main(args):
             target_name=config["dataset"]["target"]["name"],
             out_file=str(fold_dir / "log.txt"),
             save_dir=str(eval_dir),
-            save_cnn_feature_name="features_cnn_source_only.npy",  # ✅ 保存源域特征
+            save_cnn_feature_name="features_cnn_source_only.npy",  
             return_pseduo=False
-        )
-      
+        )      
         data_label_path = config_data["data_label"]
         data_subdir = Path(data_label_path).name.lower()
 
@@ -89,50 +87,11 @@ def main(args):
         fold_dir.mkdir(parents=True, exist_ok=True)
         eval_dir.mkdir(parents=True, exist_ok=True)
         model_dir.mkdir(parents=True, exist_ok=True)
-
     
         config["output_path"] = str(fold_dir)
         config["output_path_eval"] = str(eval_dir)
         config["output_path_model"] = str(model_dir)
-        config["out_file"] = str(fold_dir / "log.txt")  # 当前 fold 的 log.txt
-
-     
-        if config["warmup"]:
-            out_file_warmup = config["out_file_warmup"]
-            write_logs(out_file_warmup, str(config))
-            log_file_name_warmup = os.path.join("./logs", config_data["name"],
-                                                config["output_path_warmup"].split("/")[-1] + ".txt")
-            re = ReDirectSTD(log_file_name_warmup, "stdout", True)
-
-            shutil.copy("trainer_warmup.py", os.path.join(config["output_path_warmup"]))
-
-            log_str = "==> Step 1: Pre-training on the labeled dataset ..."
-            write_logs(out_file_warmup, log_str, colors=True)
-
-            G1, G2, F1, F2 = trainer_warmup.train_labeled_data(config, G1, G2, F1, F2, dset_loaders)
-
-            log_str = "==> Finished pre-training on source!\n"
-            write_logs(out_file_warmup, log_str, colors=True)
-
-            config_backbone = config["Architecture"]["Backbone"]
-            config_backbone["pretrained_1"] = (
-                    config["output_path_warmup"] + "/the_best_G1_pretrained.pth.tar"
-            )
-            config_backbone["pretrained_2"] = (
-                    config["output_path_warmup"] + "/the_best_G2_pretrained.pth.tar"
-            )
-
-            config_classifier = config["Architecture"]["Classifier"]
-            config_classifier["pretrained_F1"] = (
-                    config["output_path_warmup"] + "/the_best_F1_pretrained.pth.tar"
-            )
-            config_classifier["pretrained_F2"] = (
-                    config["output_path_warmup"] + "/the_best_F2_pretrained.pth.tar"
-            )
-
-            re.set_continue_write(False)
-
-            G1, G2, F1, F2 = build_model(config_architecture, DEVICE=config["DEVICE"])
+        config["out_file"] = str(fold_dir / "log.txt")     
     
         out_file = config["out_file"]
         # write_logs(out_file, str(config))
