@@ -43,6 +43,7 @@ All dependencies are listed in the `requirements.txt` file. You can install them
 ```bash
 pip install -r requirements.txt
 
+
 ## Usage
 
 1. Clone the repository:
