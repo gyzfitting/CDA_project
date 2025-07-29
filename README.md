@@ -32,5 +32,16 @@ state-of-the-art unsupervised domain adaptation methods.
 ## Pipeline
 ![Pipeline 图](images/pipeline.png)
 
+## Requirements
+
+- Python version 3.9 or higher is required.
+- It is recommended to use an NVIDIA GPU environment with CUDA 12.9 support  
+  (NVIDIA-SMI version 575.57.08, Driver Version: 575.57.08, CUDA Version: 12.9).
+
+All dependencies are listed in the `requirements.txt` file. You can install them with:
+
+```bash
+pip install -r requirements.txt
+
 
 
