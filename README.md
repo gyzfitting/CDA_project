@@ -30,7 +30,7 @@ state-of-the-art unsupervised domain adaptation methods.
 </div>
 
 ## Pipeline
-![Pipeline 图](images/fig1_v6.png)
+![Pipeline 图](images/pipeline.png)
 
 
 
