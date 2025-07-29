@@ -162,7 +162,7 @@ def eval_domain(G1, G2, F1, F2, test_loader, **kwargs):
 
     features_cnn = torch.cat(features_cnn_all, dim=0).numpy()
     features_vit = torch.cat(features_vit_all, dim=0).numpy()
-    # np.save(os.path.join(save_dir, "features_cnn.npy"), features_cnn)
+  
     save_cnn_feature_name = kwargs.get("save_cnn_feature_name", "features_cnn.npy")  
     np.save(os.path.join(save_dir, save_cnn_feature_name), features_cnn) 
     np.save(os.path.join(save_dir, "features_vit.npy"), features_vit)
@@ -192,7 +192,7 @@ def eval_domain(G1, G2, F1, F2, test_loader, **kwargs):
         correct_pl_vit, pl_acc_vit, total_pl_vit = get_pseduo_label_info(
             confidences_vit_all, predict_vit, labels, thresh_vit
         )
-    # 1. outputs.npy (包含兩個分支的輸出)
+    # 1. outputs.npy
     np.save(os.path.join(save_dir, "outputs.npy"), {
         "cnn_probs": probs_cnn,
         "vit_probs": probs_vit,
