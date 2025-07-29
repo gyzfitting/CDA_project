@@ -49,22 +49,21 @@ class MDD_Dataset(torch.utils.data.Dataset):
         weak_augment = tio.Compose([
             preprocess,          
             tio.transforms.RandomFlip(axes=(0, 1, 2)),
-            # tio.transforms.RandomAffine(scales=(0.9, 1.1), degrees=(5, 5, 5)), 
-            # tio.transforms.RandomBiasField(coefficients=0.2), 
-            # tio.transforms.RescaleIntensity((0, 1)), 
+            tio.transforms.RandomAffine(scales=(0.9, 1.1), degrees=(5, 5, 5)), 
+            tio.transforms.RandomBiasField(coefficients=0.2), 
+            tio.transforms.RescaleIntensity((0, 1)), 
 
         ])
 
         strong_augment = tio.Compose([
             preprocess,
             tio.RandomAffine(scales=0.2, degrees=20, translation=10, isotropic=True, center='image'),  
-            #tio.RandomElasticDeformation(max_displacement=7, num_control_points=5), 
-            # tio.transforms.RandomNoise(mean=0.0, std=(0, 0.1)),  
+            tio.RandomElasticDeformation(max_displacement=7, num_control_points=5), 
+            tio.transforms.RandomNoise(mean=0.0, std=(0, 0.1)),  
             tio.transforms.RandomGamma(log_gamma=(0.7, 1.5)),  
-            # tio.RandomAffine(scales=(0.95, 1.05), degrees=(5, 5, 5)),
-            # tio.RandomNoise(mean=0.0, std=0.02),
+            tio.RandomAffine(scales=(0.95, 1.05), degrees=(5, 5, 5)),
+            tio.RandomNoise(mean=0.0, std=0.02),
         ])
-
       
         self.transform_pipeline_weak = weak_augment      
         self.transform_pipeline_strong = strong_augment       
@@ -84,7 +83,7 @@ def build_data(config,fold,debug=True):
 
     method = config["method"]
     data_root = config["data_root"]
-    data_label = f"./dataset/MDD2CategoryData_uda/Fold{fold}"
+    data_label = f"./dataset/Data_text/Fold{fold}"
 
     if method == "UDA":
         prefix = config.get("data_prefix", {'train':'.txt', 'test': '.txt'})
@@ -92,23 +91,20 @@ def build_data(config,fold,debug=True):
         image_set_file_s_test = os.path.join(data_label, source_name + prefix['test'])
         image_set_file_tu = os.path.join(data_label, target_name + prefix['train'])
         image_set_file_tu_test = os.path.join(data_label, target_name + prefix['test'])
-    if debug:
-        # debug here
+    if debug:       
         print("="*10, 'DATA PATH', "="*10)
         print(f"source train: {image_set_file_s}")
         print(f"source test: {image_set_file_s_test}")
         print(f"target train: {image_set_file_tu}")
         print(f"target test: {image_set_file_tu_test}")
         print("="*31)
-        print(f"Using Fold {fold} for data loading.")
-    #filename1 = os.path.join(data_label, f"{source_name}_train.txt")
+        print(f"Using Fold {fold} for data loading.")   
     filename1 = data_label+'_'+ source_name +'_train.txt'
     labels0 = np.genfromtxt(filename1, dtype=str)
     imagepaths = labels0[..., 0].tolist()
     label = labels0[..., 1].tolist()
     dsets["source_train"] = MDD_Dataset(image_paths=imagepaths, labels=label, augment_type="none" )
-
-    #filename1_test = os.path.join(data_label, f"{source_name}_test.txt")
+    
     filename1_test = data_label+'_'+ source_name +'_test.txt'
     labels0 = np.genfromtxt(filename1_test, dtype=str)
     imagepaths = labels0[..., 0].tolist()
