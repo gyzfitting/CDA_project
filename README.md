@@ -43,5 +43,12 @@ All dependencies are listed in the `requirements.txt` file. You can install them
 ```bash
 pip install -r requirements.txt
 
+## Usage
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/yzgao2017/CDA.git
+cd yourproject
 
 
